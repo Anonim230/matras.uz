@@ -33,14 +33,18 @@ const matras = sequelize.define('matras', {
     capacity: DataTypes.INTEGER,
     warranty: DataTypes.INTEGER,
     size: DataTypes.STRING,
-    isDeleted: DataTypes.BOOLEAN
+    isDeleted: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    }
 },{ freezeTableName: true })
 
 const user = sequelize.define('user',{
     ID,
     login: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     password: {
         type: DataTypes.STRING,
@@ -53,6 +57,10 @@ const user = sequelize.define('user',{
     is_admin: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
+    },
+    isDeleted: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
     }
 },{ freezeTableName: true })
 
@@ -62,7 +70,7 @@ try{
 }catch(e){
     console.log(e);
 }finally{
-    sequelize.sync()
+    sequelize.sync({alter:true})
 }
 module.exports = {
     matras,
